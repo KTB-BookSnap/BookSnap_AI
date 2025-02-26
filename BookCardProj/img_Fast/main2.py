@@ -5,7 +5,7 @@ from PIL import Image
 from io import BytesIO
 
 # 공유된 링크를 기반으로 API 엔드포인트 설정
-api_url = 'https://f764cec27bc93d87dc.gradio.live/'
+api_url = 'https://f764cec27bc93d87dc.gradio.live/sdapi/v1/txt2img'
 
 # 요청 페이로드 설정
 payload = {
@@ -29,3 +29,7 @@ if response.status_code == 200:
       image.save(f"generated_image_{i}.png")
 else:
   print(f"Error: {response.status_code}, {response.text}")
+
+
+
+  
