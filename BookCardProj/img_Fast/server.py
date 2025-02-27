@@ -67,16 +67,4 @@ def input_story(story: TextRequest):
             "seed" : 42
         }
 
-        # # Stable Diffusion API 요청
-        # response = requests.post(SD_API_URL, json=payload)
-        
-
-        # # 응답에서 이미지 추출 및 디코딩
-        # if response.status_code == 200:
-        #     response_data = response.json()  # Stable Diffusion API 응답(JSON)
-        #     image = response_data['images'][0].split(",",1)[0]
-        #     result[f"card_{i}"]['image'] = image
-            
-        # else:
-        #     print({"error": f"Request failed with status {response.status_code}"})
     return {"result": card_news_json}

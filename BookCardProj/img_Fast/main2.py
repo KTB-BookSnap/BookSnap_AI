@@ -23,7 +23,7 @@ response = requests.post(api_url, json=payload)
 # 응답에서 이미지 추출 및 디코딩
 if response.status_code == 200:
   response_data = response.json()
-
+  print("뭐야 이거: ",response_data)
   for i, img_data in enumerate(response_data['images']):
       image = Image.open(BytesIO(base64.b64decode(img_data.split(",",1)[0])))
       image.save(f"generated_image_{i}.png")
