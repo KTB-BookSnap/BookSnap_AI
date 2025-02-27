@@ -24,7 +24,7 @@ class ImageRequest(BaseModel):
     height: int = 512
 
 # Stable Diffusion API 엔드포인트
-SD_API_URL = "https://436ca797206bf2abbd.gradio.live/sdapi/v1/txt2img"
+SD_API_URL = "https://3537212002fdb056f8.gradio.live/sdapi/v1/txt2img"
 
 
 #https://...../input_story
@@ -51,30 +51,32 @@ def input_story(story: TextRequest):
     result = {}
 
     ###image making test
-    for i in range(5, 6): #len(card_news_json)+1
-        result[f"card_{i}"] = {'text': card_news_json[f"card_{i}"]["홍보문구"]}
+    for i in range(1, 6): #len(card_news_json)+1
+        result[f"card_{i}"] = {'text': card_news_json[f"card_{i}"]["상황설명"]}
+        result[f"card_{i}"]["Stable Diffusion"] = card_news_json[f"card_{i}"]["Stable Diffusion"]
 
         sd_script = card_news_json[f"card_{i}"]['Stable Diffusion']
 
         payload = {
             "prompt": sd_script['prompt'],
-            "negative_prompt": sd_script['negative_prompt'],
+            "negative_prompt": sd_script['negative_prompt']+", deformed hands, extra limbs, distorted face, unrealistic anatomy, fused body parts, uncanny valley",
             "steps": 50,
             "cfg_scale": 7.5,
             "width": 512,
-            "height": 512
+            "height": 512,
+            "seed" : 42
         }
 
-        # Stable Diffusion API 요청
-        response = requests.post(SD_API_URL, json=payload)
+        # # Stable Diffusion API 요청
+        # response = requests.post(SD_API_URL, json=payload)
         
 
-        # 응답에서 이미지 추출 및 디코딩
-        if response.status_code == 200:
-            response_data = response.json()  # Stable Diffusion API 응답(JSON)
-            image = response_data['images'][0].split(",",1)[0]
-            result[f"card_{i}"]['image'] = image
+        # # 응답에서 이미지 추출 및 디코딩
+        # if response.status_code == 200:
+        #     response_data = response.json()  # Stable Diffusion API 응답(JSON)
+        #     image = response_data['images'][0].split(",",1)[0]
+        #     result[f"card_{i}"]['image'] = image
             
-        else:
-            print({"error": f"Request failed with status {response.status_code}"})
-    return {"result": result}
+        # else:
+        #     print({"error": f"Request failed with status {response.status_code}"})
+    return {"result": card_news_json}
