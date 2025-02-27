@@ -51,15 +51,18 @@ def input_story(story: TextRequest):
     result = {}
 
     ###image making test
-    for i in range(1, 6): #len(card_news_json)+1
+    for i in range(1, len(card_news_json)): 
         result[f"card_{i}"] = {'text': card_news_json[f"card_{i}"]["상황설명"]}
         result[f"card_{i}"]["Stable Diffusion"] = card_news_json[f"card_{i}"]["Stable Diffusion"]
 
-        sd_script = card_news_json[f"card_{i}"]['Stable Diffusion']
+        sd_script = result[f"card_{i}"]["Stable Diffusion"]
+
+        default_prompt = ", highres, high quality, perfect body, perfect face"
+        default_negative_prompt = ", deformed hands, extra limbs, distorted face, unrealistic anatomy, fused body parts, uncanny valley, ugly, tiling, watermark, signature"
 
         payload = {
-            "prompt": sd_script['prompt'],
-            "negative_prompt": sd_script['negative_prompt']+", deformed hands, extra limbs, distorted face, unrealistic anatomy, fused body parts, uncanny valley",
+            "prompt": sd_script['prompt']+default_prompt,
+            "negative_prompt": sd_script['negative_prompt']+default_negative_prompt,
             "steps": 50,
             "cfg_scale": 7.5,
             "width": 512,
@@ -67,4 +70,6 @@ def input_story(story: TextRequest):
             "seed" : 42
         }
 
-    return {"result": card_news_json}
+
+
+    return {"result": result}
